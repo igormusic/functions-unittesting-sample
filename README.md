@@ -24,26 +24,10 @@ We try to increase the samples, EventGridTrigger, EventHubTrigger, ServiceBus...
 Clone this repo with your Visual Studo. 
 
 ```
-git clone https://github.com/Azure-Samples/functions-unittesting-sample.git
+git clone https://github.com/igormusic/functions-unittesting-sample/functions-unittesting-sample.git
 ```
 
 ### Prerequisites
 
-Visual Studio 2017 (15.6+)
-.Net Core Runtime 
-
-
-### Note
-
-For enabling Durable Functions Unit Testing feature, you need to upgrade nuget packages. 
-
-* Microsoft.NET.Sdk.Functions v1.0.7
-* Microsoft.Azure.WebJobs.Extensions.DurableTask v1.1.1-beta2
-
-You might need to add `https://www.myget.org/F/azure-appservice/api/v3/index.json` as a nuget package sources for fetching the DurableTask v1.1.1-beta2
-
-
-## Resources
-
-Coming soon
+.Net Core Runtime 3.1
 
