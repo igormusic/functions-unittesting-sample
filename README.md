@@ -15,7 +15,6 @@ The sample provides the following samples:
 
 You can refer how to mock the apps. Also, you can re-use FunctionTestHelper package.
 
-We try to increase the samples, EventGridTrigger, EventHubTrigger, ServiceBus... and so on.
 
 ## Getting Started
 
@@ -24,7 +23,7 @@ We try to increase the samples, EventGridTrigger, EventHubTrigger, ServiceBus...
 Clone this repo with your Visual Studo. 
 
 ```
-git clone https://github.com/igormusic/functions-unittesting-sample/functions-unittesting-sample.git
+https://github.com/igormusic/functions-unittesting-sample.git
 ```
 
 ### Prerequisites
