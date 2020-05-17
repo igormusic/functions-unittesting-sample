@@ -11,13 +11,15 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace FunctionTestHelper
 {
     public abstract class FunctionTest
     {
 
-        protected TraceWriter log = new VerboseDiagnosticsTraceWriter();
+        protected ILogger log = NullLogger.Instance;
 
         public HttpRequest HttpRequestSetup(Dictionary<String, StringValues> query, string body)
         {

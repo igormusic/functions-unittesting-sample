@@ -1,7 +1,8 @@
-using System;
+
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace DotNet
@@ -14,9 +15,9 @@ namespace DotNet
         }
 
         [FunctionName("Function1")]
-        public async static Task RunAsync([QueueTrigger("myqueue-items", Connection = "connectionString")]string myQueueItem, [Table("MyTable", Connection = "connectionString")]IAsyncCollector<Message> messages, TraceWriter log)
+        public async static Task RunAsync([QueueTrigger("myqueue-items", Connection = "connectionString")]string myQueueItem, [Table("MyTable", Connection = "connectionString")]IAsyncCollector<Message> messages, ILogger log)
         {
-            log.Info($"C# Queue trigger function processed: {myQueueItem}");
+            log.Log(LogLevel.Information, $"C# Queue trigger function processed: {myQueueItem}");
             var message = new Message();
             message.PartitionKey = "1";
             message.RowKey = "2";

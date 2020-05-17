@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Logging;
 
 namespace DotNet
 {
@@ -11,7 +14,7 @@ namespace DotNet
     {
         [FunctionName("DurableFunctions")]
         public static async Task<List<string>> RunOrchestrator(
-            [OrchestrationTrigger] DurableOrchestrationContextBase context)
+            [OrchestrationTrigger] IDurableOrchestrationContext context)
         {
             var outputs = new List<string>();
 
@@ -25,22 +28,23 @@ namespace DotNet
         }
 
         [FunctionName("DurableFunctions_Hello")]
-        public static string SayHello([ActivityTrigger] string name, TraceWriter log)
+        public static string SayHello([ActivityTrigger] string name, ILogger log)
         {
-            log.Info($"Saying hello to {name}.");
+            log.Log(LogLevel.Information, $"Saying hello to {name}.");
             return $"Hello {name}!";
         }
 
         [FunctionName("DurableFunctions_HttpStart")]
         public static async Task<HttpResponseMessage> HttpStart(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")]HttpRequestMessage req,
-            [OrchestrationClient]DurableOrchestrationClientBase starter,
-            TraceWriter log)
+            [DurableClient]IDurableOrchestrationClient starter, string instanceId,
+            ILogger log)
         {
             // Function input comes from the request content.
-            string instanceId = await starter.StartNewAsync("DurableFunctions", null);
 
-            log.Info($"Started orchestration with ID = '{instanceId}'.");
+            await starter.StartNewAsync("DurableFunctions", instanceId, (object)null);
+
+            log.Log(LogLevel.Information, $"Started orchestration with ID = '{instanceId}'.");
             return starter.CreateCheckStatusResponse(req, instanceId);
         }
     }

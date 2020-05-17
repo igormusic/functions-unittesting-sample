@@ -7,21 +7,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace DotNet
 {
     public static class HttpTrigger
     {
         [FunctionName("HttpTrigger")]
-        public async static Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequest req, TraceWriter log)
+        public async static Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequest req, ILogger log)
         {
-            log.Info("C# HTTP trigger function processed a request.");
+            log.Log(LogLevel.Information, "C# HTTP trigger function processed a request.");
 
             string name = req.Query["name"];
 
             string requestBody = new StreamReader(req.Body).ReadToEnd();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
+            name ??= data?.name;
 
             return name != null
                 ? (ActionResult)new OkObjectResult($"Hello, {name}")
